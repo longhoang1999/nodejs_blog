@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{!-- đã khai báo public static ở index.js nên nguồn mặc định chạy về thư mục public --}}
+    <link rel="stylesheet" href="css/app.css">
+    <title>Document</title>
+</head>
+<body>
+    {{!-- Mặc định nhập thư mục partials --}}
+    {{>header}}
+    <div class="body">
+        {{{body}}}
+    </div>
+    {{>footer}}
+</body>
+</html>

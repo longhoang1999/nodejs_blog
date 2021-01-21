@@ -1,0 +1,10 @@
+@import 'variables';
+h1{
+    color: $red-color;
+    display: block;
+    background-color: blue;
+    text-align: right;
+}
+h2{
+    color:$red-green;
+}
