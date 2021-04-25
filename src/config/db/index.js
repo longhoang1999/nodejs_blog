@@ -5,11 +5,11 @@ async function connect() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
-            useCreateIndex: true
+            useCreateIndex: true,
         });
         console.log('Connect successfully');
     } catch (error) {
         console.log('Connect fail');
     }
 }
-module.exports= { connect };
+module.exports = { connect };

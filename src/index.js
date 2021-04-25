@@ -5,7 +5,7 @@ const handlebars = require('express-handlebars');
 const app = express();
 const port = 3000;
 //mặc định nhảy file index
-const route=require('./routes/index');
+const route = require('./routes/index');
 //db
 const db = require('./config/db/index');
 db.connect();
@@ -15,21 +15,26 @@ db.connect();
 //B4: load npm node-sass
 
 //định nghĩa thư mục public
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 //HTTP logger -- combined là log tiêu chuẩn
 app.use(morgan('combined'));
 // template engine
-app.engine('hbs', handlebars({
-    // chú thích đuôi
-    extname:'.hbs'
-}));
+app.engine(
+    'hbs',
+    handlebars({
+        // chú thích đuôi
+        extname: '.hbs',
+    }),
+);
 app.set('view engine', 'hbs');
-//định nghĩa thư mục view
-app.set('views', path.join(__dirname,'resources/views'));
+//định nghĩa thư mục view (tự động thêm / -> resources/views)
+app.set('views', path.join(__dirname, 'resources','views'));
 //sử dụng midderware
-app.use(express.urlencoded({
-  extended:true
-}));
+app.use(
+    express.urlencoded({
+        extended: true,
+    }),
+);
 //cũng như trên nhưng xử lý code từ json lên (eg: ajax)
 app.use(express.json());
 
@@ -37,5 +42,5 @@ app.use(express.json());
 route(app);
 //lắng nghe cổng (port)
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-})
+    console.log(`App listening at http://localhost:${port}`);
+});
