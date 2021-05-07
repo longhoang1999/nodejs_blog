@@ -5,6 +5,6 @@ const siteController = require('../app/controllers/SiteController');
 
 //router.use('/search',siteController.search);
 //tuyến đường gốc luôn đưa xuống cuối cùng
-router.use('/', siteController.index);
+router.get('/', siteController.index);
 
 module.exports = router;

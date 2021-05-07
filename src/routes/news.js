@@ -3,8 +3,8 @@ const router = express.Router();
 const newsController = require('../app/controllers/NewsController');
 
 router.get('/detail', newsController.detail);
-router.use('/:slug', newsController.show);
-router.use('/', newsController.index);
+router.get('/:slug', newsController.show);
+router.get('/', newsController.index);
 
 //tuyến đường gốc luôn đưa xuống cuối cùng
 

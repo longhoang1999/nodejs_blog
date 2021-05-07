@@ -1,13 +1,38 @@
 <h1>Home</h1>
 <h2>{{title}}</h2>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Chức năng
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/courses/create">Tạo khóa học</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/me/stored/courses">Khóa học của tôi</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Đăng xuất</a>
+            </div>
+        </li>
+        </ul>
+    </div>
+  </div>
+</nav>
 <div class="container-fuild mt-4">
     <div class="row">
         {{#each courses}}
         <div class="col-md-4 mt-3">
             <div class="card" style="width: 18rem;">
-                <img src="{{this.image}}" class="card-img-top" alt="...">
+                <a href="/courses/{{this.slug}}">
+                    <img src="{{this.image}}" class="card-img-top" alt="...">
+                </a>
                 <div class="card-body">
-                    <h5 class="card-title">{{this.name}}</h5>
+                    <a href="/courses/{{this.slug}}">
+                        <h5 class="card-title">{{this.name}}</h5>
+                    </a>
                     <p class="card-text">{{this.des}}</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>

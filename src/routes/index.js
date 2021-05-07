@@ -1,5 +1,10 @@
 const newRoute = require('./news');
+const meRoute = require('./me');
 const siteRoute = require('./site');
+const coursesRoute = require('./courses');
+
+
+
 // const newsController= require('../app/controllers/NewsController');
 // const siteController= require('../app/controllers/SiteController');
 function route(app) {
@@ -8,11 +13,11 @@ function route(app) {
     // app.get('/search',siteController.index);
     // app.get('/',siteController.search);
     app.use('/news', newRoute);
+    app.use('/courses', coursesRoute);
+    app.use('/me', meRoute);
     app.use('/', siteRoute);
-    // app.get('/new', (req, res) => {
-    //     // res.render('home');
-    //     res.render('home');
-    // })
+    
+    
     //có nghĩa localhost:3000/new/....(dẫn trong newRoute) ->newRoute là cấp con
 
     // app.get('/', (req, res) => {
