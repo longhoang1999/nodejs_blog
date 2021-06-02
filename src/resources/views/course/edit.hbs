@@ -1,0 +1,27 @@
+<style>
+    #form_create_course{
+        width: 50%;
+        margin: auto;
+    }
+</style>
+<h3>{{mission}}</h3>
+
+<div class="mt-4">
+    <form action="/courses/{{course._id}}?_method=PUT" method="POST" id="form_create_course">
+        <div class="form-group">
+            <label for="input_name">Sửa tên khóa học</label>
+            <input type="text" class="form-control" placeholder="tên khóa học" name="nameCourse" id="input_name"
+            value="{{course.name}}">
+        </div>
+        <div class="form-group">
+            <label for="input_des">Sửa tên khóa học</label>
+            <textarea name="des" id="input_des" placeholder="mô tả khóa học" class="form-control">{{course.des}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="input_videID">Sửa video id</label>
+            <input type="text" class="form-control" placeholder="video id" name="videoId" id="input_videID" 
+            value="{{course.videoId}}">
+        </div>
+        <input type="submit" class="btn btn-success" value="Sửa khóa học">   
+    </form>
+</div>

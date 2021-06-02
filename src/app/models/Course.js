@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 // thư viện mongoose-slug-generator tự động tạo slug từ field
 const slug = require('mongoose-slug-generator');
-mongoose.plugin(slug);
+const mongooseDelete = require('mongoose-delete');
+
 
 const Schema = mongoose.Schema;
 
@@ -15,5 +16,13 @@ const Course = new Schema({
 },{
     timestamps: true,
 });
+
+// add plugin
+mongoose.plugin(slug);
+Course.plugin(mongooseDelete, 
+{ 
+    overrideMethods: 'all' ,
+    deletedAt : true
+}); 
 //courses là tên conlection trong db
 module.exports = mongoose.model('courses', Course);

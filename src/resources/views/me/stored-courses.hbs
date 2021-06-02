@@ -2,27 +2,143 @@
     table{
         text-align: center;
     }
+    .all_options{
+      width: 15rem;
+    }
 </style>
-<div class="mt-4">
+<form class="mt-4"  action="/courses/handle-form-action" id="main-form" method="post">
     <div class="container">
+        <a href="/me/trash/courses">Khóa học đã xóa</a>
         <h4 class="text-success">Khóa học của tôi</h4>
+        <div class="mt-4 mb-4 d-flex align-items-center">
+          {{!-- check box --}}
+          <div class="form-check mr-2">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              Chọn tất cả
+            </label>
+          </div>
+          {{!-- select --}}
+          <select name="actions" class="form-control form-control-sm all_options mr-2" required="">
+            <option value="" hidden="">Chọn hành động</option>
+            <option value="delete">Xóa</option>
+          </select>
+
+          <button type="submit" class="btn btn-primary btn-sm mr-2 disabled" id="btnApply">Áp dụng</button>
+        </div>
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">
+                      Tên
+                      {{{sortable 'name' _sort}}}
+                    </th>
+                    <th scope="col">
+                      Mô tả
+                      {{{sortable 'des' _sort}}}
+                    </th>
+                    <th scope="col">Id Video</th>
+                    <th scope="col">Created_at</th>
+                    <th scope="col">Update_at</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
+                {{#each course}}
+                    <tr>
+                        <td>
+                          <div class="form-check mr-2">
+                            <input class="form-check-input course-item" type="checkbox" name="courseIds[]" value="{{this._id}}">
+                          </div>
+                        </td>
+                        {{!-- function helpers express handlebars định nghĩa trong index tổng --}}
+                        <th scope="row">{{sum @index 1}}</th>
+                        <td>{{this.name}}</td>
+                        <td>{{this.des}}</td>
+                        <td>{{this.videoId}}</td>
+                        <td>{{this.createdAt}}</td>
+                        <td>{{this.updatedAt}}</td>
+                        <td>
+                            <a class="btn btn-block btn-link" href="/courses/{{this._id}}/edit">Sửa</a>
+                            <button data-id="{{this._id}}" type="button" class="btn btn-block btn-link" data-toggle="modal" data-target="#exampleModal">
+                                Xóa
+                            </button>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                      <td colspan="7">
+                        Bạn không có khóa học nào!
+                        <a href="/courses/create">Đăng khóa học</a>
+                      </td>
+                    </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cảnh báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa không?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="submit_form_delete">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+      </div>
+    </div>
+  </div>
 </div>
+<form method="POST" name="delete-form">
+
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    {{!-- Khi DOMContentLoaded load hết thì hàm này mới chạy --}}
+    $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var recipient = button.data('id')
+      $("form[name=delete-form]").attr("action",`/courses/${recipient}?_method=DELETE`);
+      $("#submit_form_delete").click(function(){
+        $("form[name=delete-form]").submit()
+      })
+    })
+    $("#defaultCheck1").change(function() {
+      var isChecked = $(this).prop('checked');
+      $(".course-item").prop('checked', isChecked);
+      renderCheckAllBtn();
+    })
+    $(".course-item").change(function() {
+      // bằng true khi check hết (khi 2 biến bằng nhau)
+      var isCheckedAll = $(".course-item").length === $(".course-item:checked").length;
+      $("#defaultCheck1").prop('checked', isCheckedAll)
+      renderCheckAllBtn();
+    })
+    // render check all submit
+    function renderCheckAllBtn() {
+      var checkedCount = $(".course-item:checked").length;
+      if(checkedCount > 0)
+        $("#btnApply").removeClass("disabled");
+      else
+        $("#btnApply").addClass("disabled");
+    }
+    
+    $("#main-form").on('submit',function(e){
+      if($("#btnApply").hasClass('disabled'))
+        e.preventDefault();
+    })
+
+  })
+</script>
